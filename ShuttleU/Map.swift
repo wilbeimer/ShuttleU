@@ -7,15 +7,16 @@
 
 
 import SwiftUI
+import CoreLocation
 
-public struct ZoomableSwiftImageView: View {
-    private let minScale: CGFloat
+public struct Map: View {
+    @State private var minScale: CGFloat
 	/// - Important: Setting a higher value can cause the image to be dragged completely out of the screen making snapping back impossible.
-    private let maxScale: CGFloat
+    @State private var maxScale: CGFloat
     
-	@State private var scale: CGFloat = 4.0
+    @State public var scale: CGFloat = 1.0
     
-	@State private var lastScale: CGFloat = 1.0
+    @State private var lastScale: CGFloat
 	/// The current offset position of the image.
 	///
 	/// This value represents the position of the image in relation to the view's coordinate space.
@@ -39,7 +40,7 @@ public struct ZoomableSwiftImageView: View {
 					.offset(x: offset.x, y: offset.y)
 					.gesture(
 						makeDragGesture(size: proxy.size)
-							.simultaneously(with: makeMagnificationGesture(size: proxy.size))
+							///.simultaneously(with: makeMagnificationGesture(size: proxy.size))
 					)
 					.onTapGesture(count: 2) {
 						withAnimation {
@@ -55,6 +56,8 @@ public struct ZoomableSwiftImageView: View {
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.edgesIgnoringSafeArea(.all)
+            
+            Pin(image: Image("Pin"),mapScale: $scale, mapOffset: $offset)
 		}
 	}
 
@@ -71,6 +74,7 @@ public struct ZoomableSwiftImageView: View {
         self.minScale = minScale
         self.maxScale = maxScale
         self.scale = scale
+        self.lastScale = scale
 	}
 
 
