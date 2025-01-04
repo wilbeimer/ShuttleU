@@ -23,26 +23,29 @@ public struct Pin: View {
     
     @StateObject private var locationManager = LocationManager()
     
-    private let centerLat = 39.166032
-    private let centerLong = -78.159537
+    private let centerLat: Double =  39.163279386449105 //39.166032000000000000
+    private let centerLong: Double = -78.1573240365834 //-78.159537000000000000
+    private let latConversion: Double = 0.00001607
+    private let longConversion: Double = -0.00001253
     
-    @State private var currentLat: Double = 39.166032
+    @State private var currentLat: Double =  39.15994394009731
+    @State private var currentLong: Double =  -78.15255163237462
     
     
-    var image: Image
+    private var image: Image
     
     public var body: some View {
         ZStack {
-            /// CGFloat(locationManager.lastKnownLocation?.latitude ?? centerLat) +
-            /// CGFloat(locationManager.lastKnownLocation?.longitude ?? centerLong)  +
-            var x = print(CGFloat(locationManager.lastKnownLocation?.longitude ?? centerLong))
+            /// CGFloat(locationManager.lastKnownLocation?.latitude ?? centerLat)  * (0.00001647)+ mapOffset.x - centerLat
+            /// CGFloat(locationManager.lastKnownLocation?.longitude ?? centerLong) * (-0.00001278)  + mapOffset.y - centerLong
+            //var _ = print("Pin x: \((( currentLat - centerLat) / latConversion) + mapOffset.x)", "pin y \((( currentLong - centerLong) / longConversion) + mapOffset.y)")
             image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .scaleEffect(scale, anchor: .center)
-                .offset(x:  CGFloat(locationManager.lastKnownLocation?.latitude ?? centerLat) + mapOffset.x - centerLat, y: CGFloat(locationManager.lastKnownLocation?.longitude ?? centerLong) + mapOffset.y - centerLong)
+                .offset(x:  ((currentLat - centerLat) / latConversion) + mapOffset.x , y: ((currentLong - centerLong) / longConversion) + mapOffset.y)
                 .onTapGesture {
-                    currentLat += 20
+                    print(offset.x,offset.y)
                 }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

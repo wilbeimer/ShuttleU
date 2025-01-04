@@ -28,7 +28,8 @@ public struct Map: View {
 	/// It starts at CGSize.zero to ensure accurate calculations for the initial drag.
 	@State private var lastTranslation: CGSize = .zero
     
-	var image: Image
+    
+	private var image: Image
     
 	public var body: some View {
 		GeometryReader { proxy in
@@ -52,7 +53,12 @@ public struct Map: View {
 							}
 						}
 						adjustMaxOffset(size: proxy.size) // Adjust offsets after zooming
-					}
+					}.onAppear(perform:{
+                        print("Top left corner: \(CGPoint(x: 0, y: 0))")
+                        print("Top right corner: \(CGPoint(x: proxy.size.width, y: 0))")
+                        print("Bottom left corner: \(CGPoint(x: 0, y: proxy.size.height))")
+                        print("Bottom right corner: \(CGPoint(x: proxy.size.width, y: proxy.size.height))")
+                    })
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.edgesIgnoringSafeArea(.all)
