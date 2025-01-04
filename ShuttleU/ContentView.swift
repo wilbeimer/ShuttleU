@@ -14,31 +14,46 @@ struct ContentView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 39.166032, longitude: -78.159537), span: MKCoordinateSpan(latitudeDelta: 0.0005, longitudeDelta: 0.0005))
     
     @State private var driver: Bool = false
+    @State private var mode: String = "Student"
 
     var body: some View {
         ///Map(image: Image("Map"),minScale: 1.0,maxScale: 5.0,scale: 3.0)
         
         ZStack{
+            
             if (!driver){
                 StudentView()
+                    .onAppear(
+                        perform: {
+                            mode = "Student"
+                        }
+                    )
             }
             else{
                 DriverView()
+                    .onAppear(
+                        perform: {
+                            mode = "Driver"
+                        }
+                    )
             }
             
-            VStack{
-                HStack{
-                    Spacer()
-                    
+            HStack(alignment: .top){
+                Spacer()
+                
+                VStack(alignment: .trailing,spacing: 0){
                     Button(action: {
                         driver.toggle()
                     }, label: {
                         Text("Mode")
                     })
                     .buttonStyle(GrowingButton())
-                    .padding(.trailing,15)
+                    
+                    PrestyledText(mode)
+                    
+                    Spacer()
                 }
-                Spacer()
+                .padding(.trailing,15)
             }
         }
         .background(.primaryBlue)
@@ -58,7 +73,7 @@ struct GrowingButton: ButtonStyle {
 }
 
 struct PrestyledText: View {
-    private let text: String
+    private var text: String
 
     init(_ text: String) {
         self.text = text
@@ -66,9 +81,10 @@ struct PrestyledText: View {
 
     var body: some View {
         Text(text)
-            .padding(10)
-            .foregroundColor(.white)
+            .foregroundColor(.primaryRed)
             .font(.title)
+            .bold()
+            //.background(.primaryRed, in: RoundedRectangle(cornerRadius: 15))
     }
 }
 

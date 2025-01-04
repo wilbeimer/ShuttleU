@@ -16,7 +16,6 @@ struct DriverView: View {
         VStack{
             if (!authenticated){
                 VStack(alignment: .center){
-                    PrestyledText("Driver")
                     PasswordSecureField($password_attempt,$authenticated)
                 }
                 .frame(width: 300, height: 150)
