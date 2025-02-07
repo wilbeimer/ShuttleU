@@ -10,7 +10,7 @@ public struct StudentView: View {
     public var body: some View {
         VStack{
             ZStack{
-                Map(image: Image("Map"),minScale: 1.0,maxScale: 5.0,scale: 3.0)
+                MapView()//image: Image("Map"),minScale: 1.0,maxScale: 5.0,scale: 3.0
             }
         }
         .background(.primaryBlue)

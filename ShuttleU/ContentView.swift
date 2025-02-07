@@ -10,17 +10,11 @@ import SwiftData
 import MapKit
 
 struct ContentView: View {
-    
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 39.166032, longitude: -78.159537), span: MKCoordinateSpan(latitudeDelta: 0.0005, longitudeDelta: 0.0005))
-    
     @State private var driver: Bool = false
     @State private var mode: String = "Student"
-
+    
     var body: some View {
-        ///Map(image: Image("Map"),minScale: 1.0,maxScale: 5.0,scale: 3.0)
-        
         ZStack{
-            
             if (!driver){
                 StudentView()
                     .onAppear(
@@ -74,51 +68,22 @@ struct GrowingButton: ButtonStyle {
 
 struct PrestyledText: View {
     private var text: String
+    private var color: Color
 
-    init(_ text: String) {
+    init(_ text: String,_ color: Color = Color.primaryRed) {
         self.text = text
+        self.color = color
     }
 
     var body: some View {
         Text(text)
-            .foregroundColor(.primaryRed)
+            .foregroundColor(color)
             .font(.title)
             .bold()
             //.background(.primaryRed, in: RoundedRectangle(cornerRadius: 15))
     }
 }
 
-struct PasswordSecureField: View {
-    @Binding private var text: String
-    @Binding private var authenticated: Bool
-
-    init( _ text: Binding<String>, _ authenticated: Binding<Bool>) {
-        self._text = text
-        self._authenticated = authenticated
-    }
-
-    var body: some View {
-        SecureField(text: $text, prompt: Text("Required")
-        .foregroundStyle(.white)) {
-            Text("Pasword")
-                .foregroundStyle(Color("PrimaryBlue"))
-        }
-        .padding(10)
-        .onSubmit {
-            CheckPassword(text)
-        }
-        .background(.primaryRed)
-        .foregroundStyle(.white)
-    }
-    
-    
-    func CheckPassword(_ password_attempt: String){
-        let password: String = "hello"
-        if (password_attempt == password){
-            authenticated = true
-        }
-    }
-}
 
 #Preview {
     ContentView()

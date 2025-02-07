@@ -8,9 +8,10 @@
 
 import SwiftUI
 import CoreLocation
+import MapKit
 
-public struct Map: View {
-    @State private var minScale: CGFloat
+public struct MapView: View {
+    /*@State private var minScale: CGFloat
 	/// - Important: Setting a higher value can cause the image to be dragged completely out of the screen making snapping back impossible.
     @State private var maxScale: CGFloat
     
@@ -27,11 +28,18 @@ public struct Map: View {
 	/// This value is used to calculate the difference in position while dragging the image.
 	/// It starts at CGSize.zero to ensure accurate calculations for the initial drag.
 	@State private var lastTranslation: CGSize = .zero
-    
+   
     
 	private var image: Image
+    */
     
-	public var body: some View {
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+
+    public var body: some View {
+        Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
+            .frame(width: .infinity, height: .infinity)
+    }
+	/*public var body: some View {
 		GeometryReader { proxy in
 			ZStack {
 				image
@@ -204,5 +212,9 @@ public struct Map: View {
 		}
 		self.lastTranslation = .zero
 	}
-
+     */
+}
+    
+#Preview {
+    MapView()
 }
